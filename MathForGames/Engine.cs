@@ -67,14 +67,13 @@ namespace MathForGames
             Player player = new Player('@', 0, 0, 200, Color.DARKPURPLE, "Player");
             player.CollisionRadius = 30;
             Actor actor = new Actor('A', 5, 5, Color.BLACK, "Actor");
-            Enemy enemy = new Enemy('E', 50, 50, 50, 200, 45, player, Color.BLUE, "Enemy");
-            enemy.CollisionRadius = 30;
-            UI_Text text = new UI_Text(10, 10, "TestBox", Color.BEIGE, 70, 70, 15);
+            Enemy enemy = new Enemy('E', 100, 100, 50, 200, 45, player, Color.BLUE, "Enemy");
+            enemy.CollisionRadius = 10;
+            UI_Text text = new UI_Text(100, 100, "TestBox", Color.BEIGE, 70, 70, 15, "Hey what's up?");
 
             scene.AddActor(player);
-            scene.AddActor(actor);
             scene.AddActor(enemy);
-            scene.AddActor(text);
+            scene.AddUIElement(text);
             _currentSceneIndex = AddScene(scene);
             _scenes[_currentSceneIndex].Start();
         }
@@ -85,6 +84,7 @@ namespace MathForGames
         private void Update(float deltaTime, Player player)
         {
             _scenes[_currentSceneIndex].Update(deltaTime, player);
+            _scenes[_currentSceneIndex].UpdateUI(deltaTime);
 
             while (Console.KeyAvailable)
                 Console.ReadKey(true);
@@ -101,6 +101,7 @@ namespace MathForGames
 
             //Adds all actor icons to buffer
             _scenes[_currentSceneIndex].Draw();
+            _scenes[_currentSceneIndex].DrawUI();
 
             Raylib.EndDrawing();
         }

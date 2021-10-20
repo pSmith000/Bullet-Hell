@@ -19,7 +19,7 @@ namespace MathForGames
             Text = text;
             Width = width;
             Height = height;
-            Font = Raylib.LoadFont("redources/fonts/alagard.png");
+            Font = Raylib.LoadFont("resources/fonts/alagard.png");
             FontSize = fontSize;
         }
 

@@ -1,135 +1,112 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MathLibrary;
+using Raylib_cs;
 
 namespace MathForGames
 {
-    class Scene
+    struct Icon
     {
-        /// <summary>
-        /// Array that contains all actors in the scene
-        /// </summary>
-        private Actor[] _actors;
+        public char Symbol;
+        public Color color;
+    }
 
-        public Scene()
+
+    class Actor
+    {
+        private Icon _icon;
+        private string _name;
+        private Vector2 _position;
+        private bool _started;
+        private Vector2 _forward = new Vector2(1, 0);
+        private float _collisionRadius;
+
+        /// <summary>
+        /// True if the start function has been called for this actor
+        /// </summary>
+        public bool Started
         {
-            _actors = new Actor[0];
+            get { return _started; }
         }
 
-        /// <summary>
-        /// Calls start for every actor in the array
-        /// </summary>
+        public Vector2 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
+
+        public Icon Icon
+        {
+            get { return _icon; }
+        }
+
+        public Vector2 Forward
+        {
+            get
+            {
+                return _forward;
+            }
+            set
+            {
+                _position = value;
+            }
+        }
+
+        public float CollisionRadius
+        {
+            get { return _collisionRadius; }
+            set { _collisionRadius = value; }
+        }
+
+        public Actor(char icon, float x, float y, Color color, string name = "Actor") :
+            this(icon, new Vector2 { X = x, Y = y }, color, name)
+        { }
+
+
+        public Actor(char icon, Vector2 position, Color color, string name = "Actor")
+        {
+            _icon = new Icon { Symbol = icon, color = color };
+            _position = position;
+            _name = name;
+        }
+
         public virtual void Start()
         {
-            for (int i = 0; i < _actors.Length; i++)
-            {
-                _actors[i].Start();
-            }
+            _started = true;
         }
 
-        /// <summary>
-        /// Calls update for every actor in the array
-        /// Calls start for the actor if it hasn't already been called
-        /// </summary>
         public virtual void Update(float deltaTime)
         {
-            for (int i = 0; i < _actors.Length; i++)
-            {
-                if (!_actors[i].Started)
-                    _actors[i].Start();
-
-                _actors[i].Update(deltaTime);
-
-                //Check for collision
-                for (int j = 0; j < _actors.Length; j++)
-                {
-                    if (_actors[i].Position == _actors[j].Position && j != i)
-                        _actors[i].OnCollision(_actors[j]);
-                }
-            }
+            Console.WriteLine(_name + ": " + Position.X + ", " + Position.Y);
         }
 
-        /// <summary>
-        /// Calls draw for every actor in the array
-        /// </summary>
         public virtual void Draw()
         {
-            for (int i = 0; i < _actors.Length; i++)
-            {
-                _actors[i].Draw();
-            }
+            Raylib.DrawText(Icon.Symbol.ToString(), (int)Position.X, (int)Position.Y, 50, Icon.color);
         }
 
-        /// <summary>
-        /// Calls end for every actor in the array
-        /// </summary>
-        public virtual void End()
+        public void End()
         {
-            for (int i = 0; i < _actors.Length; i++)
-            {
-                _actors[i].End();
-            }
+
         }
 
-        /// <summary>
-        /// Adds an actor to the scenes list of actors.
-        /// </summary>
-        /// <param name="actor">The actor to add to the scenes</param>
-        public virtual void AddActor(Actor actor)
+        public virtual void OnCollision(Actor actor)
         {
-            //Create a temp array larger than the original
-            Actor[] tempArray = new Actor[_actors.Length + 1];
 
-            //Copy all values from the original array into the temp array
-            for (int i = 0; i < _actors.Length; i++)
-            {
-                tempArray[i] = _actors[i];
-            }
-
-            //Add the new actor to the end of the new array
-            tempArray[_actors.Length] = actor;
-
-            //Set the old array to be the new array
-            _actors = tempArray;
         }
 
         /// <summary>
-        /// Removes the actor from the scene
+        /// Checks if this actor collided with another actor
         /// </summary>
-        /// <param name="actor">The actor to remove</param>
-        /// <returns>False if the actor was not in the scene array</returns>
-        public virtual bool RemoveActor(Actor actor)
-        {   
-            //Create a variable to store if the removal was successful
-            bool actorRemoved = false;
+        /// <param name="other">The actor to check for a collision against</param>
+        /// <returns>True if the distance between the actors is less then the radii of the two combined</returns>
+        public virtual bool CheckForCollision(Actor other)
+        {
+            float combinedRadii = other.CollisionRadius + CollisionRadius;
+            float distance = Vector2.Distance(Position, other.Position);
 
-            //Create a new array that is smaller than the original
-            Actor[] tempArray = new Actor[_actors.Length - 1];
-
-            //Copy all values except the actor we don't want into the new array
-            int j = 0;
-            for (int i = 0; i < tempArray.Length; i++)
-            {
-                //If the actor that the loop is on is not the one to remove...
-                if (_actors[i] != actor)
-                {
-                    //...add the actor back into the new array
-                    tempArray[j] = _actors[i];
-                    j++;
-                }
-                //Otherwise if this actor is the one to remove...
-                else
-                    //...set actorRemoved to true
-                    actorRemoved = true;
-            }
-
-            //If the actor removal was successful...
-            if (actorRemoved)
-                //...set the old array to be the new array
-                _actors = tempArray;
-
-            return actorRemoved;
-            
+            return distance <= combinedRadii;
         }
     }
 }

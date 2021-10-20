@@ -23,7 +23,7 @@ namespace MathForGames
             set { _velocity = value; }
         }
 
-        public Player(char icon, float x, float y, float speed, Color color, string name = "Actor") 
+        public Player(char icon, float x, float y, float speed, Color color, string name = "Actor")
             : base(icon, x, y, color, name)
         {
             _speed = speed;
@@ -49,7 +49,8 @@ namespace MathForGames
 
         public override void OnCollision(Actor actor)
         {
-            Console.WriteLine("Collision occured");
+            if (actor is Enemy)
+                Engine.CloseApplication();
         }
     }
 }

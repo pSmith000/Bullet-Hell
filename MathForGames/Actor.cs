@@ -76,14 +76,16 @@ namespace MathForGames
             _started = true;
         }
 
-        public virtual void Update(float deltaTime)
+        public virtual void Update(float deltaTime, Scene currentScene)
         {
             Console.WriteLine(_name + ": " + Position.X + ", " + Position.Y);
+
+            Raylib.DrawCircleLines((int)Position.X, (int)Position.Y, CollisionRadius, Color.BLACK);
         }
 
         public virtual void Draw()
         {
-            Raylib.DrawText(Icon.Symbol.ToString(), (int)Position.X, (int)Position.Y, 30, Icon.color);
+            Raylib.DrawText(Icon.Symbol.ToString(), (int)Position.X - 12, (int)Position.Y - 15, 30, Icon.color);
         }
 
         public void End()
@@ -91,7 +93,7 @@ namespace MathForGames
 
         }
 
-        public virtual void OnCollision(Actor actor)
+        public virtual void OnCollision(Actor actor, Scene currentScene)
         {
 
         }

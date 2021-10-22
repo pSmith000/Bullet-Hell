@@ -11,7 +11,7 @@ namespace MathForGames
     class Engine
     {
         private static bool _applicationShouldClose;
-        private static int _currentSceneIndex;
+        public static int CurrentSceneIndex;
         private Scene[] _scenes = new Scene[0];
         private Stopwatch _stopwatch = new Stopwatch();
 
@@ -65,17 +65,20 @@ namespace MathForGames
 
             Scene scene = new Scene();
             Player player = new Player('@', 0, 0, 200, Color.DARKPURPLE, "Player");
-            player.CollisionRadius = 30;
             Actor actor = new Actor('A', 5, 5, Color.BLACK, "Actor");
-            Enemy enemy = new Enemy('E', 100, 100, 50, 200, 45, player, Color.BLUE, "Enemy");
+            Enemy enemy = new Enemy('E', 100, 100, 50, 200, 180, player, Color.BLUE, "Enemy");
+            Enemy enemy1 = new Enemy('E', 500, 300, 50, 200, 180, player, Color.BLUE, "Enemy");
+            Enemy enemy2 = new Enemy('E', 500, 10, 50, 200, 180, player, Color.BLUE, "Enemy");
             enemy.CollisionRadius = 10;
             UI_Text text = new UI_Text(100, 100, "TestBox", Color.BEIGE, 70, 70, 15, "Hey what's up?");
 
             scene.AddActor(player);
             scene.AddActor(enemy);
+            scene.AddActor(enemy1);
+            scene.AddActor(enemy2);
             scene.AddUIElement(text);
-            _currentSceneIndex = AddScene(scene);
-            _scenes[_currentSceneIndex].Start();
+            CurrentSceneIndex = AddScene(scene);
+            _scenes[CurrentSceneIndex].Start();
         }
 
         /// <summary>
@@ -83,8 +86,8 @@ namespace MathForGames
         /// </summary>
         private void Update(float deltaTime, Player player)
         {
-            _scenes[_currentSceneIndex].Update(deltaTime, player);
-            _scenes[_currentSceneIndex].UpdateUI(deltaTime);
+            _scenes[CurrentSceneIndex].Update(deltaTime, _scenes[CurrentSceneIndex]);
+            _scenes[CurrentSceneIndex].UpdateUI(deltaTime, _scenes[CurrentSceneIndex]);
 
             while (Console.KeyAvailable)
                 Console.ReadKey(true);
@@ -100,8 +103,8 @@ namespace MathForGames
             Raylib.ClearBackground(Color.PINK);
 
             //Adds all actor icons to buffer
-            _scenes[_currentSceneIndex].Draw();
-            _scenes[_currentSceneIndex].DrawUI();
+            _scenes[CurrentSceneIndex].Draw();
+            _scenes[CurrentSceneIndex].DrawUI();
 
             Raylib.EndDrawing();
         }
@@ -111,7 +114,7 @@ namespace MathForGames
         /// </summary>
         private void End()
         {
-            _scenes[_currentSceneIndex].End();
+            _scenes[CurrentSceneIndex].End();
             Raylib.CloseWindow();
         }
 

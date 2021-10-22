@@ -12,6 +12,7 @@ namespace MathForGames
         private Actor[] _actors;
         private Actor[] _UIElements;
         private Enemy _enemy;
+        private Scene _currentScene;
 
         public Scene()
         {
@@ -34,32 +35,36 @@ namespace MathForGames
         /// Calls update for every actor in the array
         /// Calls start for the actor if it hasn't already been called
         /// </summary>
-        public virtual void Update(float deltaTime, Player player)
+        public virtual void Update(float deltaTime, Scene currentScene)
         {
             for (int i = 0; i < _actors.Length; i++)
             {
                 if (!_actors[i].Started)
                     _actors[i].Start();
 
-                _actors[i].Update(deltaTime);
+                _actors[i].Update(deltaTime, currentScene);
 
                 //Check for collision
                 for (int j = 0; j < _actors.Length; j++)
                 {
-                    if (_actors[i].CheckForCollision(_actors[j]) && j != i)
-                        _actors[i].OnCollision(_actors[j]);
+                    if (i < _actors.Length)
+                    {
+                        if (_actors[i].CheckForCollision(_actors[j]) && j != i)
+                            _actors[i].OnCollision(_actors[j], currentScene);
+                    }
+                    
                 }
             }
         }
 
-        public virtual void UpdateUI(float deltaTime)
+        public virtual void UpdateUI(float deltaTime, Scene currentScene)
         {
             for (int i = 0; i < _UIElements.Length; i++)
             {
                 if (!_UIElements[i].Started)
                     _UIElements[i].Start();
 
-                _UIElements[i].Update(deltaTime);
+                _UIElements[i].Update(deltaTime, currentScene);
             }
         }
 
@@ -70,6 +75,10 @@ namespace MathForGames
         {
             for (int i = 0; i < _actors.Length; i++)
             {
+                if (!_actors[i].Started)
+                {
+                    _actors[i].Start();
+                }
                 _actors[i].Draw();
             }
         }
@@ -148,7 +157,7 @@ namespace MathForGames
 
             //Copy all values except the actor we don't want into the new array
             int j = 0;
-            for (int i = 0; i < tempArray.Length; i++)
+            for (int i = 0; i < _actors.Length; i++)
             {
                 //If the actor that the loop is on is not the one to remove...
                 if (_actors[i] != actor)

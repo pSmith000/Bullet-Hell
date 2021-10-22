@@ -34,20 +34,22 @@ namespace MathForGames
             _player = player;
             _maxSightDistance = maxSightDistance;
             _maxViewAngle = maxViewAngle;
+            CollisionRadius = 8;
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(float deltaTime, Scene currentScene)
         {
             Vector2 moveDirection = _player.Position - Position;
 
             Velocity = moveDirection.Normalized * Speed * deltaTime;
 
+
             if (GetTargetInSight())
                 Position += Velocity;
-            if (TargetCollide())
-                //OnCollision(_player);
+            //if (TargetCollide())
+            //    //OnCollision(_player);
 
-                base.Update(deltaTime);
+                base.Update(deltaTime, currentScene);
         }
 
         public bool GetTargetInSight()
@@ -62,18 +64,28 @@ namespace MathForGames
 
         }
 
-        public bool TargetCollide()
-        {
-            if (_player.Position.X - Position.X > 30 || _player.Position.Y - Position.Y > 30)
-                return false;
-            else if (_player.Position.X - Position.X < -30 || _player.Position.Y - Position.Y < -40)
-                return false;
-            return true;
-        }
+        //public bool TargetCollide()
+        //{
+        //    if (_player.Position.X - Position.X > 30 || _player.Position.Y - Position.Y > 30)
+        //        return false;
+        //    else if (_player.Position.X - Position.X < -30 || _player.Position.Y - Position.Y < -40)
+        //        return false;
+        //    return true;
+        //}
 
-        public override void OnCollision(Actor actor)
+        public override void OnCollision(Actor actor, Scene currentScene)
         {
-            //Position -= Velocity * 25;
+            if (actor is Bullet)
+            {
+                currentScene.RemoveActor(actor);
+                currentScene.RemoveActor(this);
+            }
+            if (actor is Player)
+            {
+                Engine.CloseApplication();
+            }
+
+
         }
     }
 }

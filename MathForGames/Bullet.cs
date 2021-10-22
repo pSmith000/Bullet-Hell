@@ -5,13 +5,12 @@ using MathLibrary;
 using Raylib_cs;
 
 namespace MathForGames
-{/*
+{
     class Bullet : Actor
     {
         private float _speed;
         private Vector2 _velocity;
         private Player _player;
-        private
 
         public float Speed
         {
@@ -25,29 +24,35 @@ namespace MathForGames
             set { _velocity = value; }
         }
 
-        public Bullet(char icon, float x, float y, float speed, Player player, Color color, string name = "Actor")
+        public Bullet(char icon, float x, float y, float speed, Color color, float velocityX, float velocityY, string name = "Actor")
             : base(icon, x, y, color, name)
         {
+            _velocity.X = velocityX;
+            _velocity.Y = velocityY;
             _speed = speed;
-            _player = player;
+            CollisionRadius = 10;
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(float deltaTime, Scene currentScene)
         {
-           if (Started == false)
-            {
-                Vector2 moveDirection = _player.Position - Position;
+            base.Update(deltaTime, currentScene);
 
-                Velocity = moveDirection.Normalized * Speed * deltaTime;
-                Position += Velocity;
-                Vector2 originalVelocity = Velocity;
-            }
-            Position += 
+            Vector2 moveDirection = new Vector2(_velocity.X, _velocity.Y);
+
+            Velocity = moveDirection.Normalized * Speed * deltaTime;
+
+            Position += Velocity;
         }
 
         public override void Draw()
         {
-            Raylib.DrawText(Icon.Symbol.ToString(), (int)Position.X, (int)Position.Y, 5, Icon.color);
-        }*/
+            Raylib.DrawText(Icon.Symbol.ToString(), (int)Position.X - 10, (int)Position.Y - 35, 45, Icon.color);
+        }
+
+        public override void OnCollision(Actor actor, Scene currentScene)
+        { 
+
+        }
+    }
 }
 

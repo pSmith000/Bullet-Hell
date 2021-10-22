@@ -10,6 +10,8 @@ namespace MathForGames
     {
         private float _speed;
         private Vector2 _velocity;
+        private Player _player;
+        private Scene _scene;
 
         public float Speed
         {
@@ -27,9 +29,10 @@ namespace MathForGames
             : base(icon, x, y, color, name)
         {
             _speed = speed;
+            CollisionRadius = 10;
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(float deltaTime, Scene currentScene)
         {
             //Get the player input direction
             int xDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_A))
@@ -44,10 +47,37 @@ namespace MathForGames
 
             Position += Velocity;
 
-            base.Update(deltaTime);
+            base.Update(deltaTime, currentScene);
+
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN))
+            {
+                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, 0, 1);
+
+                currentScene.AddActor(bullet);
+            }
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP))
+            {
+                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, 0, -1);
+
+                currentScene.AddActor(bullet);
+            }
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT))
+            {
+                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, -1, 0);
+
+                currentScene.AddActor(bullet);
+            }
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_RIGHT))
+            {
+                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, 1, 0);
+
+                currentScene.AddActor(bullet);
+            }
+
+            
         }
 
-        public override void OnCollision(Actor actor)
+        public override void OnCollision(Actor actor, Scene currentScene)
         {
             if (actor is Enemy)
                 Engine.CloseApplication();

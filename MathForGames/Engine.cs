@@ -89,11 +89,6 @@ namespace MathForGames
             _scenes[CurrentSceneIndex].Update(deltaTime, _scenes[CurrentSceneIndex]);
             _scenes[CurrentSceneIndex].UpdateUI(deltaTime, _scenes[CurrentSceneIndex]);
 
-            UI_Text text = new UI_Text(100, 100, "TestBox", Color.BEIGE, 70, 70, 15, "HEALTH: " + player.Lives.ToString());
-            
-
-            scene.AddUIElement(text);
-
             while (Console.KeyAvailable)
                 Console.ReadKey(true);
 

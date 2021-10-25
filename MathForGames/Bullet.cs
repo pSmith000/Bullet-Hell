@@ -10,7 +10,7 @@ namespace MathForGames
     {
         private float _speed;
         private Vector2 _velocity;
-        private Player _player;
+        private Vector2 basePosition;
 
         public float Speed
         {
@@ -31,6 +31,7 @@ namespace MathForGames
             _velocity.Y = velocityY;
             _speed = speed;
             CollisionRadius = 10;
+            basePosition = Position;
         }
 
         public override void Update(float deltaTime, Scene currentScene)
@@ -42,6 +43,10 @@ namespace MathForGames
             Velocity = moveDirection.Normalized * Speed * deltaTime;
 
             Position += Velocity;
+
+            if (Position.X - basePosition.X > 100 || Position.Y - basePosition.Y > 100 || 
+            Position.X - basePosition.X < -100 || Position.Y - basePosition.Y < -100)
+                currentScene.RemoveActor(this);
         }
 
         public override void Draw()

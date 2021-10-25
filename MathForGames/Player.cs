@@ -9,9 +9,9 @@ namespace MathForGames
     class Player : Actor
     {
         private float _speed;
+        private int _lives;
         private Vector2 _velocity;
-        private Player _player;
-        private Scene _scene;
+        private UI_Text _uiText;
 
         public float Speed
         {
@@ -25,11 +25,18 @@ namespace MathForGames
             set { _velocity = value; }
         }
 
-        public Player(char icon, float x, float y, float speed, Color color, string name = "Actor")
+        public int Lives
+        {
+            get { return _lives; }
+            set { _lives = value; }
+        }
+
+        public Player(char icon, float x, float y, float speed, int lives, Color color, string name = "Actor")
             : base(icon, x, y, color, name)
         {
             _speed = speed;
             CollisionRadius = 10;
+            _lives = lives; 
         }
 
         public override void Update(float deltaTime, Scene currentScene)
@@ -51,25 +58,25 @@ namespace MathForGames
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN))
             {
-                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, 0, 1);
+                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, 0, 1);
 
                 currentScene.AddActor(bullet);
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP))
             {
-                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, 0, -1);
+                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, 0, -1);
 
                 currentScene.AddActor(bullet);
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT))
             {
-                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, -1, 0);
+                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, -1, 0);
 
                 currentScene.AddActor(bullet);
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_RIGHT))
             {
-                Bullet bullet = new Bullet('.', Position.X + 9, Position.Y - 20, 500, Color.RED, 1, 0);
+                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, 1, 0);
 
                 currentScene.AddActor(bullet);
             }
@@ -79,7 +86,17 @@ namespace MathForGames
 
         public override void OnCollision(Actor actor, Scene currentScene)
         {
+
             if (actor is Enemy)
+            {
+                Lives--;
+                
+                Position = new Vector2(0, 0);
+
+            }
+
+
+            if (Lives == 0)
                 Engine.CloseApplication();
         }
     }

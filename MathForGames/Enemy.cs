@@ -14,6 +14,7 @@ namespace MathForGames
         private Player _player;
         private int _maxViewAngle;
         private int _maxSightDistance;
+        private int _enemyCount;
 
         public float Speed
         {
@@ -27,6 +28,11 @@ namespace MathForGames
             set { _velocity = value; }
         }
 
+        public int EnemyCount
+        {
+            get { return _enemyCount; }
+        }
+
         public Enemy(char icon, float x, float y, float speed, int maxSightDistance, int maxViewAngle, Player player, Color color, string name = "Enemy")
             : base(icon, x, y, color, name)
         {
@@ -35,6 +41,7 @@ namespace MathForGames
             _maxSightDistance = maxSightDistance;
             _maxViewAngle = maxViewAngle;
             CollisionRadius = 8;
+            _enemyCount++;
         }
 
         public override void Update(float deltaTime, Scene currentScene)
@@ -80,12 +87,6 @@ namespace MathForGames
                 currentScene.RemoveActor(actor);
                 currentScene.RemoveActor(this);
             }
-            if (actor is Player)
-            {
-                Engine.CloseApplication();
-            }
-
-
         }
     }
 }

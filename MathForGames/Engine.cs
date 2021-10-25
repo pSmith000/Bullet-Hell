@@ -15,6 +15,8 @@ namespace MathForGames
         private Scene[] _scenes = new Scene[0];
         private Stopwatch _stopwatch = new Stopwatch();
 
+        Scene scene = new Scene();
+
 
         /// <summary>
         /// Called to begin the application
@@ -28,7 +30,7 @@ namespace MathForGames
             float lastTime = 0;
             float deltaTime = 0;
 
-            Player player = new Player('@', 10, 10, 100, Color.DARKPURPLE, "Player");
+            Player player = new Player('@', 10, 10, 100, 3, Color.DARKPURPLE, "Player");
 
             //Loop until the application is told to close
             while (!_applicationShouldClose && !Raylib.WindowShouldClose())
@@ -63,20 +65,18 @@ namespace MathForGames
             Raylib.InitWindow(800, 450, "Math for Games");
             Raylib.SetTargetFPS(60);
 
-            Scene scene = new Scene();
-            Player player = new Player('@', 0, 0, 200, Color.DARKPURPLE, "Player");
+            Player player = new Player('@', 0, 0, 200, 3, Color.DARKPURPLE, "Player");
             Actor actor = new Actor('A', 5, 5, Color.BLACK, "Actor");
             Enemy enemy = new Enemy('E', 100, 100, 50, 200, 180, player, Color.BLUE, "Enemy");
             Enemy enemy1 = new Enemy('E', 500, 300, 50, 200, 180, player, Color.BLUE, "Enemy");
             Enemy enemy2 = new Enemy('E', 500, 10, 50, 200, 180, player, Color.BLUE, "Enemy");
-            enemy.CollisionRadius = 10;
-            UI_Text text = new UI_Text(100, 100, "TestBox", Color.BEIGE, 70, 70, 15, "Hey what's up?");
+            
 
             scene.AddActor(player);
             scene.AddActor(enemy);
             scene.AddActor(enemy1);
             scene.AddActor(enemy2);
-            scene.AddUIElement(text);
+            //scene.AddUIElement(text);
             CurrentSceneIndex = AddScene(scene);
             _scenes[CurrentSceneIndex].Start();
         }
@@ -88,6 +88,11 @@ namespace MathForGames
         {
             _scenes[CurrentSceneIndex].Update(deltaTime, _scenes[CurrentSceneIndex]);
             _scenes[CurrentSceneIndex].UpdateUI(deltaTime, _scenes[CurrentSceneIndex]);
+
+            UI_Text text = new UI_Text(100, 100, "TestBox", Color.BEIGE, 70, 70, 15, "HEALTH: " + player.Lives.ToString());
+            
+
+            scene.AddUIElement(text);
 
             while (Console.KeyAvailable)
                 Console.ReadKey(true);

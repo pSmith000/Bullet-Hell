@@ -97,7 +97,12 @@ namespace MathForGames
 
 
             if (Lives == 0)
-                Engine.CloseApplication();
+            {
+                UI_Text deathMessage = new UI_Text(200, 150, "Death Message", Color.BLACK, 1000, 1000, 100, "You Lose");
+                currentScene.AddUIElement(deathMessage);
+                currentScene.RemoveActor(this);
+            }
+               
         }
     }
 }

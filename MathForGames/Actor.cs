@@ -71,6 +71,8 @@ namespace MathForGames
             _name = name;
         }
 
+        public Actor() { }
+
         public virtual void Start()
         {
             _started = true;

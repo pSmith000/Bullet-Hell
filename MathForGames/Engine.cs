@@ -67,15 +67,21 @@ namespace MathForGames
 
             Player player = new Player('@', 0, 0, 200, 3, Color.DARKPURPLE, "Player");
             Actor actor = new Actor('A', 5, 5, Color.BLACK, "Actor");
-            Enemy enemy = new Enemy('E', 100, 100, 50, 200, 180, player, Color.BLUE, "Enemy");
-            Enemy enemy1 = new Enemy('E', 500, 300, 50, 200, 180, player, Color.BLUE, "Enemy");
-            Enemy enemy2 = new Enemy('E', 500, 10, 50, 200, 180, player, Color.BLUE, "Enemy");
+            Enemy enemy = new Enemy('E', 500, 200, 25, 200, 180, player, Color.GREEN, "Enemy");
+            Enemy enemy1 = new Enemy('E', 500, 200, 50, 200, 180, player, Color.BLUE, "Enemy");
+            Enemy enemy2 = new Enemy('E', 500, 200, 75, 200, 180, player, Color.YELLOW, "Enemy");
+            Enemy enemy3 = new Enemy('E', 500, 200, 100, 200, 180, player, Color.ORANGE, "Enemy");
+            Enemy enemy4 = new Enemy('E', 500, 200, 125, 200, 180, player, Color.RED, "Enemy");
+            LivesCounter livesCounter = new LivesCounter(0, 0, "lives counter", Color.BLACK, player);
             
 
             scene.AddActor(player);
+            scene.AddUIElement(livesCounter);
             scene.AddActor(enemy);
             scene.AddActor(enemy1);
             scene.AddActor(enemy2);
+            scene.AddActor(enemy3);
+            scene.AddActor(enemy4);
             //scene.AddUIElement(text);
             CurrentSceneIndex = AddScene(scene);
             _scenes[CurrentSceneIndex].Start();

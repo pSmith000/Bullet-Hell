@@ -14,7 +14,7 @@ namespace MathForGames
         public Font Font;
 
 
-        public UI_Text(float x, float y, string name, Color color, int width, int height, int fontSize, string text = "") : base('\0', x, y, color, name)
+        public UI_Text(float x, float y, string name, Color color, int width, int height, int fontSize, string text = "") : base(x, y, name)
         {
             Text = text;
             Width = width;
@@ -22,7 +22,7 @@ namespace MathForGames
             Font = Raylib.LoadFont("resources/fonts/alagard.png");
             FontSize = fontSize;
         }
-        public UI_Text(float x, float y, string name, Color color) : base('\0', x, y, color)
+        public UI_Text(float x, float y, string name, Color color) : base( x, y)
         {
             Text = "";
             Width = 200;
@@ -35,7 +35,7 @@ namespace MathForGames
     public override void Draw()
         {
             Rectangle textbox = new Rectangle(Position.X, Position.Y, Width, Height);
-            Raylib.DrawTextRec(Font, Text, textbox, FontSize, 1, true, Icon.color);
+            Raylib.DrawTextRec(Font, Text, textbox, FontSize, 1, true, Color.BLACK);
         }
     }
 }

@@ -31,8 +31,8 @@ namespace MathForGames
             set { _lives = value; }
         }
 
-        public Player(char icon, float x, float y, float speed, int lives, Color color, string name = "Actor")
-            : base(icon, x, y, color, name)
+        public Player(float x, float y, float speed, int lives,string name = "Actor", string path = "")
+            : base(x, y, name, path)
         {
             _speed = speed;
             CollisionRadius = 10;
@@ -58,25 +58,25 @@ namespace MathForGames
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN))
             {
-                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, 0, 1);
+                Bullet bullet = new Bullet(Position.X, Position.Y, 500, 0, 1);
 
                 currentScene.AddActor(bullet);
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP))
             {
-                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, 0, -1);
+                Bullet bullet = new Bullet(Position.X, Position.Y, 500,0, -1);
 
                 currentScene.AddActor(bullet);
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT))
             {
-                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, -1, 0);
+                Bullet bullet = new Bullet(Position.X, Position.Y, 500, -1, 0);
 
                 currentScene.AddActor(bullet);
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_RIGHT))
             {
-                Bullet bullet = new Bullet('.', Position.X, Position.Y, 500, Color.RED, 1, 0);
+                Bullet bullet = new Bullet(Position.X, Position.Y, 500, 1, 0);
 
                 currentScene.AddActor(bullet);
             }

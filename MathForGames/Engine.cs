@@ -30,7 +30,7 @@ namespace MathForGames
             float lastTime = 0;
             float deltaTime = 0;
 
-            Player player = new Player('@', 10, 10, 100, 3, Color.DARKPURPLE, "Player");
+            Player player = new Player(10, 10, 100, 3, "Player", "Images/player.png");
 
             //Loop until the application is told to close
             while (!_applicationShouldClose && !Raylib.WindowShouldClose())
@@ -65,13 +65,13 @@ namespace MathForGames
             Raylib.InitWindow(800, 450, "Math for Games");
             Raylib.SetTargetFPS(60);
 
-            Player player = new Player('@', 0, 0, 200, 3, Color.DARKPURPLE, "Player");
-            Actor actor = new Actor('A', 5, 5, Color.BLACK, "Actor");
-            Enemy enemy = new Enemy('E', 500, 200, 25, 200, 180, player, Color.GREEN, "Enemy");
-            Enemy enemy1 = new Enemy('E', 500, 200, 50, 200, 180, player, Color.BLUE, "Enemy");
-            Enemy enemy2 = new Enemy('E', 500, 200, 75, 200, 180, player, Color.YELLOW, "Enemy");
-            Enemy enemy3 = new Enemy('E', 500, 200, 100, 200, 180, player, Color.ORANGE, "Enemy");
-            Enemy enemy4 = new Enemy('E', 500, 200, 125, 200, 180, player, Color.RED, "Enemy");
+            Player player = new Player(10, 10, 100, 3, "Player", "Images/player.png");
+            Actor actor = new Actor(5, 5, "Actor");
+            Enemy enemy = new Enemy(500, 200, 25, 200, 180, player, "Enemy", "Images/enemy.png");
+            Enemy enemy1 = new Enemy(500, 200, 50, 200, 180, player, "Enemy", "Images/enemy.png");
+            Enemy enemy2 = new Enemy(500, 200, 75, 200, 180, player, "Enemy", "Images/enemy.png");
+            Enemy enemy3 = new Enemy( 500, 200, 100, 200, 180, player, "Enemy", "Images/enemy.png");
+            Enemy enemy4 = new Enemy(500, 200, 125, 200, 180, player,"Enemy", "Images/enemy.png");
             LivesCounter livesCounter = new LivesCounter(0, 0, "lives counter", Color.BLACK, player);
             
 

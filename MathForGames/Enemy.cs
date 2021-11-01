@@ -33,8 +33,8 @@ namespace MathForGames
             get { return _enemyCount; }
         }
 
-        public Enemy(char icon, float x, float y, float speed, int maxSightDistance, int maxViewAngle, Player player, Color color, string name = "Enemy")
-            : base(icon, x, y, color, name)
+        public Enemy(float x, float y, float speed, int maxSightDistance, int maxViewAngle, Player player, string name = "Enemy", string path = "")
+            : base(x, y, name, path)
         {
             _speed = speed;
             _player = player;
